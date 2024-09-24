@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">PetsPassion_Admin</string>
+    <string name="admin_title">Pets Passion Admin</string>
+    <string name="welcome_back">Welcome Back</string>
+    <string name="login_to_your_account">Login To Your Account</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="show_password">Show Password</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+
+
 </resources>
