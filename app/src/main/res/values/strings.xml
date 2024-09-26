@@ -8,6 +8,8 @@
     <string name="show_password">Show Password</string>
     <string name="forgot_password">Forgot Password</string>
     <string name="login">Login</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="reset_link">Send Reset Link</string>
 
 
 </resources>

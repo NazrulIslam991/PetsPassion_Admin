@@ -88,6 +88,7 @@ public class Login_Activity extends AppCompatActivity {
                 } else if (!validatePassword()) {
                     return;
                 }
+
                 else{
                     aLodingDialog.show();
                     loginAdmin();
@@ -108,12 +109,19 @@ public class Login_Activity extends AppCompatActivity {
 
 
 
-    //   .............................check email edittext field is empty or not.......................................
+    //   .............................check email edittext field is empty and validation or not.......................................
 
     public boolean validateUseremail(){
         String user_email = email.getText().toString();
         if(user_email.isEmpty()){
+            email.requestFocus();
             email.setError("Email cannot be empty");
+            return false;
+        }
+        // Check if the email format is valid
+        else if (!user_email.matches("^[a-zA-Z0-9]+([._-][a-zA-Z0-9]+)*@(gmail\\.com|outlook\\.com|yahoo\\.com)$") && !user_email.matches("^cse_[0-9]{16}@lus\\.ac\\.bd$")) {
+            email.requestFocus();
+            email.setError("Invalid email format");
             return false;
         }
         else {
@@ -123,18 +131,29 @@ public class Login_Activity extends AppCompatActivity {
     }
 
 
-    //   .............................check password edittext field is empty or not.......................................
+
+    //   .............................check password edittext field is empty and validation or not.......................................
 
     public Boolean validatePassword() {
         String pass = password.getText().toString();
+
         if (pass.isEmpty()) {
+            password.requestFocus();
             password.setError("Password cannot be empty");
             return false;
-        } else {
+        }
+
+        else if (!pass.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[\\W_]).{6,16}$")) {
+            password.requestFocus();
+            password.setError("Password must be between 6 to 16 characters long, " + "include at least one digit, one lowercase letter, " + "one uppercase letter, and one special character.");
+            return false;
+        }
+        else {
             password.setError(null);
             return true;
         }
     }
+
 
 
     //  .........................admin login functionality...............................................

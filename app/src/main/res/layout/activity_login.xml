@@ -112,6 +112,7 @@
                 android:textSize="15sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:textColor="@color/white"
                 android:background="@drawable/custom_button"
                 android:backgroundTint="@color/lavender"
                 app:cornerRadius = "20dp"/>
