@@ -4,5 +4,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="adminHome">#B1D5E3</color>
     <color name="lavender">#8692f7</color>
+    <color name="selected_color">#FF018785</color>
+    <color name="default_color">#000000</color>
+
+
 
 </resources>
