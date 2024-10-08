@@ -16,6 +16,13 @@
     <string name="profile">Profile</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="insert_product">Insert Product</string>
+    <string name="insert_categories">Insert Categories</string>
+    <string name="show_categories">Show Categories</string>
+    <string name="insert_a_new_category">Insert A New Categorie</string>
+    <string name="category_image">Categories Image</string>
+    <string name="category_name">Categorie Name</string>
+    <string name="add_category">Add Categories</string>
 
 
 </resources>

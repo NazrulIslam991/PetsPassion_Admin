@@ -41,6 +41,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.0.0")
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("com.airbnb.android:lottie:5.2.0")
+    implementation("com.google.firebase:firebase-storage:21.0.1")
 
 
     testImplementation("junit:junit:4.13.2")

@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/adminHome">
+
+    <ImageView
+        android:id="@+id/categories_insert_to_admin_home_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back_sign"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/cardView"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/insert_a_new_category"
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:textStyle="italic" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="21dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/white_background"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/categories_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="25dp"
+                android:contentDescription="@string/category_image"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image_add"
+                app:shapeAppearanceOverlay="@style/roundedImageView" />
+
+            <EditText
+                android:id="@+id/etCategoriesName"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/custom_edittext"
+                android:gravity="center"
+                android:hint="@string/category_name"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry,TextFields" />
+
+            <Button
+                android:id="@+id/btnAddCategories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_button"
+                android:backgroundTint="@color/lavender"
+                app:cornerRadius = "20dp"
+                android:padding="8dp"
+                android:text="@string/add_category" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
