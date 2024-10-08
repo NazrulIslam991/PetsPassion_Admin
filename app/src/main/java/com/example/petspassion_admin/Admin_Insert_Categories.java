@@ -118,38 +118,35 @@ public class Admin_Insert_Categories extends AppCompatActivity {
     //................................................ Method to validate category input and proceed to upload..................................................
     private void validateAndUploadCategory(){
 
-        final String categorie_name = categoryNameEditText.getText().toString().trim();
+        final String categories_name = categoryNameEditText.getText().toString().trim();
 
-        if(categorie_name.isEmpty()){
+        if(categories_name.isEmpty()){
             categoryNameEditText.requestFocus();
             categoryNameEditText.setError("Categories name cannot be empty");
-            return;
-        } else if (!Name_pattern.matcher(categorie_name).matches()) {
+        } else if (!Name_pattern.matcher(categories_name).matches()) {
             categoryNameEditText.requestFocus();
             categoryNameEditText.setError("Category name must start with a capital letter. Example: 'Pets'");
-            return;
         } else if (imageUri==null) {
             categoryImageView.requestFocus();
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
-            return;
         }
         else{
-            checkCategoryExists(categorie_name);  // Check if category already exists
+            checkCategoryExists(categories_name);  // Check if category already exists
         }
     }
 
 
 
     //..................................... Method to check if the category already exists in the database...................................................
-    private void checkCategoryExists(final String categorie_name){
-        databaseReference.orderByChild("categories_name").equalTo(categorie_name).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void checkCategoryExists(final String categories_name){
+        databaseReference.orderByChild("categories_name").equalTo(categories_name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     Toast.makeText(Admin_Insert_Categories.this,"Categories name already exists !!!",Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    uploadCategory(categorie_name);  // Proceed to upload category if it doesn't exist
+                    uploadCategory(categories_name);  // Proceed to upload category if it doesn't exist
                 }
             }
 
@@ -163,7 +160,7 @@ public class Admin_Insert_Categories extends AppCompatActivity {
 
 
     // .............................................Method to upload the category data and image...........................................................
-    private void uploadCategory(final String categorie_name) {
+    private void uploadCategory(final String categories_name) {
 
         aLodingDialog.show();
         new Handler().postDelayed(() -> aLodingDialog.dismiss(), 20000);
@@ -178,7 +175,7 @@ public class Admin_Insert_Categories extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         aLodingDialog.dismiss();
                         String Image_uri = uri.toString(); // Get the image URL
-                        DataClass dataClass = new DataClass(categorie_name, Image_uri);
+                        DataClass dataClass = new DataClass(categories_name, Image_uri);
 
                         // Push category data to Firebase Realtime Database
                         String uploadId = databaseReference.push().getKey();
