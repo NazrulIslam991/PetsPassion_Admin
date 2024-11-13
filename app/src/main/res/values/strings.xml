@@ -23,6 +23,19 @@
     <string name="category_image">Categories Image</string>
     <string name="category_name">Categorie Name</string>
     <string name="add_category">Add Categories</string>
-
+    <string name="insert_a_new_product">Insert A New Product</string>
+    <string name="image">Image</string>
+    <string name="product_image_">Product Image</string>
+    <string name="categories">Categories</string>
+    <string name="add_product">Add Product</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price_item">Product price item</string>
+    <string name="discounted_price">Discounted price</string>
+    <string name="product_price">Product price</string>
+    <string name="product_discount_item">Product discount item</string>
+    <string name="product_discount">Product discount</string>
+    <string name="product_quantity_item">Product quantity item</string>
+    <string name="product_quantity">Product quantity</string>
+    <string name="product_description">Product description</string>
 
 </resources>
