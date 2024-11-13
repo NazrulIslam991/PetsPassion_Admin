@@ -26,6 +26,8 @@ public class Login_Activity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private ALodingDialog aLodingDialog;
     private Handler handler;
+    private SessionManager sessionManager;
+
 
 
     @Override
@@ -45,6 +47,9 @@ public class Login_Activity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         handler = new Handler();
+
+        sessionManager = new SessionManager(this);
+
 
 
 
@@ -83,23 +88,19 @@ public class Login_Activity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validateUseremail()){
+                if (!validateUseremail()) {
                     return;
                 } else if (!validatePassword()) {
                     return;
-                }
-
-                else{
+                } else {
                     aLodingDialog.show();
                     loginAdmin();
-                    // Set a timeout of 30 seconds
                     handler.postDelayed(() -> {
                         if (aLodingDialog.isShowing()) {
-                            aLodingDialog.dismiss();  // Hide the loading dialog if still showing
+                            aLodingDialog.dismiss();
                             Toast.makeText(Login_Activity.this, "Login timed out. Please try again.", Toast.LENGTH_SHORT).show();
                         }
-                    }, 30000); // 30 seconds
-
+                    }, 30000);
                 }
             }
         });
@@ -158,38 +159,35 @@ public class Login_Activity extends AppCompatActivity {
 
     //  .........................admin login functionality...............................................
 
-    public void loginAdmin(){
+    public void loginAdmin() {
         String admin_email = email.getText().toString().trim();
         String admin_password = password.getText().toString().trim();
-        firebaseAuth.signInWithEmailAndPassword(admin_email,admin_password).addOnCompleteListener(task -> {
+
+        firebaseAuth.signInWithEmailAndPassword(admin_email, admin_password).addOnCompleteListener(task -> {
             handler.removeCallbacksAndMessages(null);
             aLodingDialog.dismiss();
 
-            if(task.isSuccessful()){
+            if (task.isSuccessful()) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-                if(firebaseUser != null){
+                if (firebaseUser != null) {
                     String userEmail = firebaseUser.getEmail();
-                    if("nazrulislamnayon991@gmail.com".equalsIgnoreCase(userEmail)){
+                    if ("nazrulislamnayon991@gmail.com".equalsIgnoreCase(userEmail)) {
+                        // Save UID in SessionManager
+                        sessionManager.saveUserUID(firebaseUser.getUid());
+
                         Intent intent = new Intent(Login_Activity.this, AdminHome_Activity.class);
                         startActivity(intent);
                         finish();
-                    }
-                    else{
-                        Toast.makeText(Login_Activity.this,"Please try again",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(Login_Activity.this, "Please try again", Toast.LENGTH_SHORT).show();
                         firebaseAuth.signOut();
                     }
                 }
-                else{
-                    Toast.makeText(Login_Activity.this, "Invalid credentials. Please try again.", Toast.LENGTH_SHORT).show();
-
-                }
             }
-
-
         }).addOnFailureListener(e -> {
             handler.removeCallbacksAndMessages(null);
             aLodingDialog.dismiss();
-            Toast.makeText(Login_Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();  // Show error message
+            Toast.makeText(Login_Activity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         });
 
     }
