@@ -37,5 +37,6 @@
     <string name="product_quantity_item">Product quantity item</string>
     <string name="product_quantity">Product quantity</string>
     <string name="product_description">Product description</string>
+    <string name="update_category">Update Category</string>
 
 </resources>

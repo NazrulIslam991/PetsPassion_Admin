@@ -16,6 +16,9 @@
         android:theme="@style/Theme.PetsPassion_Admin"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateCategories"
+            android:exported="false" />
+        <activity
             android:name=".Admin_ShowCategories"
             android:exported="false" />
         <activity

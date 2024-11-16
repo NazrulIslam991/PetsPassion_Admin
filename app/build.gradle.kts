@@ -42,6 +42,8 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation ("com.airbnb.android:lottie:5.2.0")
     implementation("com.google.firebase:firebase-storage:21.0.1")
+    implementation ("com.squareup.picasso:picasso:2.71828")
+
 
 
     testImplementation("junit:junit:4.13.2")
