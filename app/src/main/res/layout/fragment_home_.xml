@@ -1,14 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/adminHome"
+    android:paddingTop="15dp"
     tools:context=".Home_Fragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_below="@+id/search_view">
 
-</FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:scrollbars="vertical" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/search_bar_design"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search products"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/hint_message"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:hint="@string/enter_product_name_or_price"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="15sp"
+        android:textColorHint="@color/white"
+        android:gravity="center"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/no_products_found"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_products_found"
+        android:textSize="18sp"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

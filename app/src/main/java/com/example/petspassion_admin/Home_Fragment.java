@@ -2,63 +2,113 @@ package com.example.petspassion_admin;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link Home_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Home_Fragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public Home_Fragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Home_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static Home_Fragment newInstance(String param1, String param2) {
-        Home_Fragment fragment = new Home_Fragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private TextView noProductsFound;
+    private List<DataClass> productList;
+    private AdminProductAdapter adminProductAdapter;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_home_, container, false);
+
+        swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
+        recyclerView = rootView.findViewById(R.id.recycler_view);
+        noProductsFound = rootView.findViewById(R.id.no_products_found);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));  // Set the layout manager for the RecyclerView
+        productList = new ArrayList<>();
+        adminProductAdapter = new AdminProductAdapter(productList, getContext());
+        recyclerView.setAdapter(adminProductAdapter);
+
+        swipeRefreshLayout.setOnRefreshListener(this::refreshData);
+
+        loadProducts();   // Load products from the Firebase database
+
+        return rootView;
+    }
+
+
+
+    //............................................. Method to load products from the Firebase database...........................................................
+    private void loadProducts() {
+        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("Products");   // Reference to the "Products" node in the Firebase database
+        productRef.addValueEventListener(new ValueEventListener() {
+            // Attach a ValueEventListener to listen for changes in the database
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                productList.clear();
+                // Iterate over all products in the snapshot
+                for (DataSnapshot productSnapshot : snapshot.getChildren()) {
+                    // Convert each snapshot to a DataClass object
+                    DataClass product = productSnapshot.getValue(DataClass.class);
+                    if (product != null) {
+                        // Set the product ID using the Firebase key
+                        product.setProduct_id(productSnapshot.getKey());
+                        productList.add(product);// Add the product to the list
+                    }
+                }
+                updateUI();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to load products: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+
+
+
+    //............................................... Method to update the UI based on the product list..................................................
+    private void updateUI() {
+        if (productList.isEmpty()) {
+            // Show a message if no products are found
+            showEmptyState();
+        } else {
+            // If products are found, display the RecyclerView
+            noProductsFound.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            adminProductAdapter.notifyDataSetChanged();
         }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home_, container, false);
+
+
+    // .......................................Method to show the "No Products Found" message and hide the RecyclerView.......................................................
+    public void showEmptyState() {
+        noProductsFound.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+
+    //........................................ Method to refresh data when SwipeRefreshLayout is triggered.............................................................
+    private void refreshData() {
+        loadProducts();
     }
 }
