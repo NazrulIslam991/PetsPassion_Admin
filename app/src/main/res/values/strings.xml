@@ -43,6 +43,17 @@
     <string name="product_name_item">Product Name Item</string>
     <string name="back">Back</string>
     <string name="update_product">Update product</string>
+    <string name="profile_image">Profile Image</string>
+    <string name="email_address">example@gmail.com</string>
+    <string name="account_info">Account Info</string>
+    <string name="todo">TODO</string>
+    <string name="not_set">Not set</string>
+    <string name="address">Address</string>
+    <string name="logout">LogOut</string>
+    <string name="name">Name</string>
+    <string name="email_hints">Email</string>
+    <string name="mobile">Mobile</string>
+    <string name="log_out">Log Out</string>
 
 
 </resources>

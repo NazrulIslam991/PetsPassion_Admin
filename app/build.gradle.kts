@@ -44,6 +44,7 @@ dependencies {
     implementation("com.google.firebase:firebase-storage:21.0.1")
     implementation ("com.squareup.picasso:picasso:2.71828")
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation ("com.github.mancj:MaterialSearchBar:0.8.5")
 
 
     testImplementation("junit:junit:4.13.2")

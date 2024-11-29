@@ -1,6 +1,8 @@
 package com.example.petspassion_admin;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,8 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,13 +25,17 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Home_Fragment extends Fragment {
+
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private TextView noProductsFound;
-    private List<DataClass> productList;
-    private AdminProductAdapter adminProductAdapter;
+    private MaterialSearchBar searchBar; // MaterialSearchBar for searching
+
+    private List<DataClass> productList;    // List to hold products
+    private List<DataClass> originalProductList; // To restore original list
+
+    private AdminProductAdapter adminProductAdapter;  // Adapter for RecyclerView
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,38 +44,71 @@ public class Home_Fragment extends Fragment {
         swipeRefreshLayout = rootView.findViewById(R.id.swipe_refresh_layout);
         recyclerView = rootView.findViewById(R.id.recycler_view);
         noProductsFound = rootView.findViewById(R.id.no_products_found);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));  // Set the layout manager for the RecyclerView
+        searchBar = rootView.findViewById(R.id.searchBar); // Reference to MaterialSearchBar
+
+        // Set up RecyclerView with LinearLayoutManager
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Initialize the product lists and adapter
         productList = new ArrayList<>();
+        originalProductList = new ArrayList<>();
         adminProductAdapter = new AdminProductAdapter(productList, getContext());
         recyclerView.setAdapter(adminProductAdapter);
 
+        // Set up swipe-to-refresh functionality
         swipeRefreshLayout.setOnRefreshListener(this::refreshData);
 
-        loadProducts();   // Load products from the Firebase database
+        // Load products from Firebase
+        loadProducts();
+
+        // Set up the search bar for filtering products
+        setupSearchBar();
 
         return rootView;
     }
 
+    // ..............................................Method to configure the search functionality (MaterialSearchBar)..........................................................
+    private void setupSearchBar() {
+        searchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
+            @Override
+            public void onSearchStateChanged(boolean enabled) {
+                if (!enabled) {
+                    restoreOriginalProductList();  // If search is closed, restore the original list
+                }
+            }
 
+            @Override
+            public void onSearchConfirmed(CharSequence text) {
+                if (!TextUtils.isEmpty(text)) {
+                    searchProducts(text.toString()); // Search products based on text input
+                }
+            }
 
-    //............................................. Method to load products from the Firebase database...........................................................
+            @Override
+            public void onButtonClicked(int buttonCode) {
+                // Handle extra button clicks like voice search
+            }
+        });
+    }
+
+    // ..................................................Method to load products from Firebase database....................................................
     private void loadProducts() {
-        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("Products");   // Reference to the "Products" node in the Firebase database
+        DatabaseReference productRef = FirebaseDatabase.getInstance().getReference("Products");
         productRef.addValueEventListener(new ValueEventListener() {
-            // Attach a ValueEventListener to listen for changes in the database
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 productList.clear();
-                // Iterate over all products in the snapshot
+
+                // Loop through the products and add them to the list
                 for (DataSnapshot productSnapshot : snapshot.getChildren()) {
-                    // Convert each snapshot to a DataClass object
                     DataClass product = productSnapshot.getValue(DataClass.class);
                     if (product != null) {
-                        // Set the product ID using the Firebase key
-                        product.setProduct_id(productSnapshot.getKey());
-                        productList.add(product);// Add the product to the list
+                        product.setProduct_id(productSnapshot.getKey());  // Set product ID
+                        productList.add(product);  // Add to product list
                     }
                 }
+
+                originalProductList = new ArrayList<>(productList);  // Keep a copy of the original list
                 updateUI();
             }
 
@@ -81,34 +120,76 @@ public class Home_Fragment extends Fragment {
         });
     }
 
+    // ................................................Method to search products based on input.............................................................
+    private void searchProducts(String query) {
+        List<DataClass> filteredList = new ArrayList<>();
+        String searchQuery = query.toLowerCase().trim();  // Normalize query to lowercase
 
+        try {
+            double maxPrice = Double.parseDouble(searchQuery); // Try to parse the query as a price
+            for (DataClass product : originalProductList) {
+                double productPrice = Double.parseDouble(product.getProduct_price());
+                if (productPrice <= maxPrice) {
+                    filteredList.add(product);  // Add products matching the price range
+                }
+            }
+        } catch (NumberFormatException e) {
+            // If it's not a price, search by name or product ID
+            for (DataClass product : originalProductList) {
+                String productName = product.getProduct_name().toLowerCase();
+                String productId = product.getProduct_id().toLowerCase();
 
+                if (productName.contains(searchQuery) || productId.contains(searchQuery)) {
+                    filteredList.add(product);  // Add products matching name or ID
+                }
+            }
+        }
 
-    //............................................... Method to update the UI based on the product list..................................................
+        updateFilteredList(filteredList);
+    }
+
+    // ............................................Method to update filtered product list in the UI.......................................................
+    private void updateFilteredList(List<DataClass> filteredList) {
+        if (filteredList.isEmpty()) {
+            showEmptyState();  // Show "no products found" if no matches
+        } else {
+            noProductsFound.setVisibility(View.GONE);  // Hide "no products found" text
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+
+        productList.clear();  // Clear existing products and add the filtered ones
+        productList.addAll(filteredList);
+        adminProductAdapter.notifyDataSetChanged();
+    }
+
+    // ..............................................Method to restore the original product list....................................................
+    private void restoreOriginalProductList() {
+        productList.clear();
+        productList.addAll(originalProductList);
+        adminProductAdapter.notifyDataSetChanged();
+        updateUI();
+    }
+
+    // .....................................................Method to update the UI when products are loaded................................................
     private void updateUI() {
         if (productList.isEmpty()) {
-            // Show a message if no products are found
             showEmptyState();
         } else {
-            // If products are found, display the RecyclerView
             noProductsFound.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             adminProductAdapter.notifyDataSetChanged();
         }
-        swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setRefreshing(false);  // Stop the refresh animation
     }
 
-
-
-    // .......................................Method to show the "No Products Found" message and hide the RecyclerView.......................................................
-    public void showEmptyState() {
-        noProductsFound.setVisibility(View.VISIBLE);
+    // .....................................Method to show the "No Products Found" message........................................................
+    private void showEmptyState() {
+        noProductsFound.setVisibility(View.VISIBLE);  // Show "no products found" message
         recyclerView.setVisibility(View.GONE);
     }
 
-
-    //........................................ Method to refresh data when SwipeRefreshLayout is triggered.............................................................
+    // .......................................... Method to refresh product data when user swipes down.....................................................
     private void refreshData() {
-        loadProducts();
+        loadProducts();  // Reload products from Firebase
     }
 }

@@ -7,11 +7,26 @@
     android:paddingTop="15dp"
     tools:context=".Home_Fragment">
 
+    <!-- Material Search Bar -->
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        style="@style/MaterialSearchBarLight"
+        app:mt_speechMode="true"
+        app:mt_hint="Search a product"
+        app:mt_placeholder="Search"
+        app:mt_maxSuggestionsCount="10"
+        android:paddingStart="13dp"
+        android:paddingEnd="13dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mt_navIconEnabled="true"
+        android:id="@+id/searchBar" />
+
+    <!-- SwipeRefreshLayout with RecyclerView inside -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/search_view">
+        android:layout_below="@id/searchBar">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -19,34 +34,9 @@
             android:layout_height="match_parent"
             android:layout_margin="5dp"
             android:scrollbars="vertical" />
-
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/search_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginEnd="18dp"
-        android:layout_marginBottom="5dp"
-        android:background="@drawable/search_bar_design"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search products"
-        tools:ignore="MissingConstraints" />
-
-    <TextView
-        android:id="@+id/hint_message"
-        android:layout_width="match_parent"
-        android:layout_height="51dp"
-        android:hint="@string/enter_product_name_or_price"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="15sp"
-        android:textColorHint="@color/white"
-        android:gravity="center"
-        android:visibility="visible"
-        tools:ignore="MissingConstraints" />
-
+    <!-- No products found TextView -->
     <TextView
         android:id="@+id/no_products_found"
         android:layout_width="wrap_content"
