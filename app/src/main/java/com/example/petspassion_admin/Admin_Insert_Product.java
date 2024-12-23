@@ -55,6 +55,12 @@ public class Admin_Insert_Product extends AppCompatActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(Admin_Insert_Product.this, R.color.adminHome));   // Set the status bar color
 
 
+        // Disable default title if using custom TextView
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
+
 
         //................................ Initialize the UI elements........................................
         etProductName = findViewById(R.id.etProductName);
@@ -65,7 +71,9 @@ public class Admin_Insert_Product extends AppCompatActivity {
         etProductCategory = findViewById(R.id.categories);
         imgProduct = findViewById(R.id.imgProduct);
         btnAddProduct = findViewById(R.id.btnAddProduct);
-        back = findViewById(R.id.insert_admin_home_page);
+        back = findViewById(R.id.back);
+
+
 
 
 
@@ -154,6 +162,12 @@ public class Admin_Insert_Product extends AppCompatActivity {
             etProductName.requestFocus();
             isValid = false;
         }
+        // Validate product category
+        else if (etProductCategory.getText().toString().trim().isEmpty()) {
+            etProductCategory.setError("Product category is required");
+            etProductCategory.requestFocus();
+            isValid = false;
+        }
         // Validate product description
         else if (etProductDescription.getText().toString().trim().isEmpty()) {
             etProductDescription.setError("Product description is required");
@@ -178,12 +192,7 @@ public class Admin_Insert_Product extends AppCompatActivity {
             etProductQuantity.requestFocus();
             isValid = false;
         }
-        // Validate product category
-        else if (etProductCategory.getText().toString().trim().isEmpty()) {
-            etProductCategory.setError("Product category is required");
-            etProductCategory.requestFocus();
-            isValid = false;
-        }
+
         // Validate image selection
         else if (uri == null) {
             Toast.makeText(this, "Please select an image", Toast.LENGTH_SHORT).show();
@@ -192,6 +201,8 @@ public class Admin_Insert_Product extends AppCompatActivity {
 
         return isValid;
     }
+
+
 
 
 
@@ -243,10 +254,15 @@ public class Admin_Insert_Product extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if (selectedCategoryIndex != -1) {
-                        etProductCategory.setText(categories.get(selectedCategoryIndex));
+                        String selectedCategory = categories.get(selectedCategoryIndex);
+                        etProductCategory.setText(selectedCategory);
+
+                        // Remove error when category is selected
+                        etProductCategory.setError(null);
                     }
                 }
             });
+
 
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1046302297913",
+    "project_id": "project-pets-passion",
+    "storage_bucket": "project-pets-passion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1046302297913:android:009c624bec27f774ed22e8",
+        "android_client_info": {
+          "package_name": "com.example.petspassion_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhcQEnVNkKrFykMh-KQnRGuF2_H9-WA6c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

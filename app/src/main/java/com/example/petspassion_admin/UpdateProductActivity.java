@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -59,12 +60,16 @@ public class UpdateProductActivity extends AppCompatActivity {
         //updateBtnSelectImage = findViewById(R.id.update_btn_select_image);
         updateProductBtn = findViewById(R.id.update_product);
 
+
+
         getWindow().setStatusBarColor(ContextCompat.getColor(UpdateProductActivity.this, R.color.adminHome));
 
         update_to_admin_home_page = findViewById(R.id.update_to_admin_home_page);
-        update_to_admin_home_page.setOnClickListener(v -> {
-            Intent intent = new Intent(UpdateProductActivity.this, Home_Fragment.class);
-            startActivity(intent);
+        update_to_admin_home_page.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
 
         productId = getIntent().getStringExtra("productId");
@@ -76,6 +81,12 @@ public class UpdateProductActivity extends AppCompatActivity {
         categoriesRef = FirebaseDatabase.getInstance().getReference("Categories");
 
         aLodingDialog = new ALodingDialog(UpdateProductActivity.this);
+
+
+        // Disable default title if using custom TextView
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
 
 
         //........................................ Load the product details and categories from Firebase..........................................................

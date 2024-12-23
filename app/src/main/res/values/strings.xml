@@ -54,6 +54,8 @@
     <string name="email_hints">Email</string>
     <string name="mobile">Mobile</string>
     <string name="log_out">Log Out</string>
+    <string name="inserta_title">Insert Product</string>
+
 
 
 </resources>

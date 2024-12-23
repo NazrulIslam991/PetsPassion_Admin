@@ -4,162 +4,166 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/adminHome"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/update_to_admin_home_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/back_sign"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="15dp"
-        android:contentDescription="@string/back" />
 
-    <TextView
+    <!-- Custom Toolbar -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/customToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/update_product"
-        android:gravity="center"
-        android:textSize="35sp"
-        android:layout_marginBottom="10dp"
-        android:textStyle="italic"
-        android:textColor="@color/white" />
+        android:background="@color/colorPrimary"
+        android:backgroundTint="@color/adminHome"
+        android:elevation="4dp">
 
-    <androidx.cardview.widget.CardView
+        <ImageView
+            android:id="@+id/update_to_admin_home_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/back_sign"
+            android:contentDescription="@string/back"
+            android:layout_gravity="start" />
+
+        <TextView
+            android:id="@+id/toolbarTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/update_product"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="450dp"
-        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
+        android:layout_below="@id/customToolbar"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="21dp">
+        android:layout_marginBottom="20dp">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-            <LinearLayout
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/update_product_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/product_image_"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/initial_image"
+                app:shapeAppearanceOverlay="@style/CircularImageView" />
+
+            <EditText
+                android:id="@+id/update_product_name"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="@string/product_name"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry,TextFields" />
+
+            <EditText
+                android:id="@+id/update_categories"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_edittext"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="@string/categories"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,KeyboardInaccessibleWidget,RtlSymmetry,TextFields" />
+
+            <EditText
+                android:id="@+id/update_product_description"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="@string/product_description"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry,TextFields" />
+
+            <EditText
+                android:id="@+id/update_product_price"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="@string/product_price"
+                android:inputType="numberDecimal"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/update_product_Discount"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="@string/product_discount"
+                android:inputType="numberDecimal"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/update_product_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/custom_edittext"
+                android:hint="@string/product_quantity"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                tools:ignore="Autofill,RtlSymmetry" />
+
+            <Button
+                android:id="@+id/update_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@drawable/white_background"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/update_product_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="140dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:contentDescription="@string/product_image_"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/initial_image" />
-
-                <EditText
-                    android:id="@+id/update_product_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:hint="@string/product_name"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,RtlSymmetry,TextFields" />
-
-                <EditText
-                    android:id="@+id/update_categories"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:hint="@string/categories"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,KeyboardInaccessibleWidget,RtlSymmetry,TextFields" />
-
-                <EditText
-                    android:id="@+id/update_product_description"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:hint="@string/product_description"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,RtlSymmetry,TextFields" />
-
-                <EditText
-                    android:id="@+id/update_product_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:hint="@string/product_price"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,RtlSymmetry" />
-
-                <EditText
-                    android:id="@+id/update_product_Discount"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/custom_edittext"
-                    android:hint="@string/product_discount"
-                    android:inputType="numberDecimal"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,RtlSymmetry" />
-
-                <EditText
-                    android:id="@+id/update_product_quantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/custom_edittext"
-                    android:hint="@string/product_quantity"
-                    android:inputType="number"
-                    android:paddingStart="10dp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="italic"
-                    tools:ignore="Autofill,RtlSymmetry" />
-
-                <Button
-                    android:id="@+id/update_product"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="20dp"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/custom_button"
-                    android:text="@string/update_category"/>
-            </LinearLayout>
-        </ScrollView>
-    </androidx.cardview.widget.CardView>
+                android:layout_margin="20dp"
+                android:textColor="@color/white"
+                android:background="@drawable/custom_button"
+                android:backgroundTint="@color/lavender"
+                app:cornerRadius="20dp"
+                android:padding="8dp"
+                android:text="@string/update_category" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>
