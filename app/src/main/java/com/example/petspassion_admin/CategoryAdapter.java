@@ -55,7 +55,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         DataClass category = categoryList.get(position);  // Get the current category from the list
-        holder.categoriesName.setText(category.getCategories_name());  // Set category name to the TextView
+        holder.categoriesName.setText(category.getCategory_name());  // Set category name to the TextView
         Picasso.get().load(category.getCategory_image()).into(holder.categoriesImage);   // Load category image using Picasso library
 
         // Set a click listener for the item, if the context is the Admin_ShowCategories activity
@@ -98,7 +98,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             startUpdateCategoryActivity(category);
             return true;
         } else if (itemId == R.id.delete_category) {
-            deleteCategory(category.getCategories_name(), category.getCategory_image());
+            deleteCategory(category.getCategory_name(), category.getCategory_image());
             return true;
         } else {
             return false;
@@ -112,7 +112,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     // .....................................This method starts the UpdateCategories activity with category details passed via an Intent..................................................
     private void startUpdateCategoryActivity(DataClass category) {
         Intent intent = new Intent(context, UpdateCategories.class);
-        intent.putExtra("category_name", category.getCategories_name());
+        intent.putExtra("category_name", category.getCategory_name());
         intent.putExtra("category_image", category.getCategory_image());
         context.startActivity(intent);
     }
@@ -130,7 +130,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
                         task.getResult().getChildren().forEach(snapshot -> snapshot.getRef().removeValue()
                                 .addOnSuccessListener(aVoid -> {                     // Notify success and update the UI
                                     Toast.makeText(context, "Category deleted", Toast.LENGTH_SHORT).show();
-                                    categoryList.removeIf(item -> item.getCategories_name().equals(categoryName));           // Remove the category from the list and refresh the RecyclerView
+                                    categoryList.removeIf(item -> item.getCategory_name().equals(categoryName));           // Remove the category from the list and refresh the RecyclerView
                                     notifyDataSetChanged();
                                 })
                                 .addOnFailureListener(e -> Toast.makeText(context, "Failed to delete category", Toast.LENGTH_SHORT).show()));

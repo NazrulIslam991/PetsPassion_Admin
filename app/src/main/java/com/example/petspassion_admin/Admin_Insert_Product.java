@@ -217,7 +217,7 @@ public class Admin_Insert_Product extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     DataClass category = dataSnapshot.getValue(DataClass.class);
                     if (category != null) {
-                        categories.add(category.getCategories_name());
+                        categories.add(category.getCategory_name());
                     }
                 }
 
