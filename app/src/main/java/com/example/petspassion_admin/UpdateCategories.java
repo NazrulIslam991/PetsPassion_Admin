@@ -178,7 +178,7 @@ public class UpdateCategories extends AppCompatActivity {
     // .........................................Method to check if the updated category name already exists in the database....................................................
     private void updateCategoryInDatabase(String updatedCategoryName, String updatedImageUrl) {
         // Check if the updated category name already exists
-        categoryDatabaseReference.orderByChild("categories_name").equalTo(updatedCategoryName).get().addOnCompleteListener(checkTask -> {
+        categoryDatabaseReference.orderByChild("category_name").equalTo(updatedCategoryName).get().addOnCompleteListener(checkTask -> {
             if (checkTask.isSuccessful() && checkTask.getResult().exists()) {
                 // If a category with the updated name exists and it's not the current category
                 if (!updatedCategoryName.equals(categoryName)) {
@@ -201,10 +201,10 @@ public class UpdateCategories extends AppCompatActivity {
 
     // ............................................Method to update the category in the database once the name check is passed.......................................................
     private void updateCategoryNameInDatabase(String updatedCategoryName, String updatedImageUrl) {
-        categoryDatabaseReference.orderByChild("categories_name").equalTo(categoryName).get().addOnCompleteListener(task -> {
+        categoryDatabaseReference.orderByChild("category_name").equalTo(categoryName).get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult().exists()) {
                 task.getResult().getChildren().forEach(snapshot -> {
-                    snapshot.getRef().child("categories_name").setValue(updatedCategoryName);
+                    snapshot.getRef().child("category_name").setValue(updatedCategoryName);
                     snapshot.getRef().child("category_image").setValue(updatedImageUrl)
                             .addOnSuccessListener(aVoid -> {
                                 updateProductsCategoryName(categoryName, updatedCategoryName);

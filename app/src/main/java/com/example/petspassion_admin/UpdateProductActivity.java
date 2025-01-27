@@ -153,7 +153,7 @@ public class UpdateProductActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 categoriesList.clear();
                 for (DataSnapshot categorySnapshot : snapshot.getChildren()) {
-                    String categoryName = categorySnapshot.child("categories_name").getValue(String.class);
+                    String categoryName = categorySnapshot.child("category_name").getValue(String.class);
                     if (categoryName != null) {
                         categoriesList.add(categoryName);
                     }

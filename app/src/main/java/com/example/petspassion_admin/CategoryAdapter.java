@@ -124,7 +124,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     // .................................This method deletes a category from Firebase based on the category name.............................................
     private void deleteCategory(String categoryName, String categoryImage) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Categories");   // Reference to the "Categories" node in Firebase
-        databaseReference.orderByChild("categories_name").equalTo(categoryName)        // Query to find the category by name
+        databaseReference.orderByChild("category_name").equalTo(categoryName)        // Query to find the category by name
                 .get().addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult().exists()) {                   // If the category exists, delete it
                         task.getResult().getChildren().forEach(snapshot -> snapshot.getRef().removeValue()
